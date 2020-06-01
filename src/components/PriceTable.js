@@ -28,7 +28,7 @@ function PriceTable() {
     getBudaBTC_CLP(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC)
     setInterval(() => {
       getBudaBTC_CLP(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC)
-    }, 3000);
+    }, 15000);
   }, [])
 
   return (
