@@ -1,17 +1,19 @@
 /* eslint-disable no-dupe-args */
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table'
-import Buda from 'buda-promise'
-const buda = new Buda();
+import axios from 'axios'
+import { get } from 'lodash'
 
-// FUNCION PARA BUSCAR PRECIO
-async function getBudaBTC_CLP(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC) {
-  const tickerBTC = await buda.ticker('btc-clp')
-  const tickerETH = await buda.ticker('eth-clp')
-  const tickerLTC = await buda.ticker('ltc-clp')
-  const precioBTC = tickerBTC.ticker.last_price[0]
-  const precioETH = tickerETH.ticker.last_price[0]
-  const precioLTC = tickerLTC.ticker.last_price[0]
+async function getBudaPrices(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC) {
+  
+  const tickerBTC = await axios.get('https://www.buda.com/api/v2/markets/btc-clp/ticker.json')
+  const tickerETH = await axios.get('https://www.buda.com/api/v2/markets/eth-clp/ticker.json')
+  const tickerLTC = await axios.get('https://www.buda.com/api/v2/markets/ltc-clp/ticker.json')
+
+  const precioBTC = get(tickerBTC, 'data.ticker.last_price[0]', 0)
+  const precioETH = get(tickerETH, 'data.ticker.last_price[0]', 0)
+  const precioLTC = get(tickerLTC, 'data.ticker.last_price[0]', 0)
+  
   setPriceBudaBTC(precioBTC)
   setPriceBudaETH(precioETH)
   setPriceBudaLTC(precioLTC)
@@ -25,9 +27,9 @@ function PriceTable() {
   const [priceBudaLTC, setPriceBudaLTC] = useState(0)
 
   useEffect(() => {
-    getBudaBTC_CLP(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC)
+    getBudaPrices(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC)
     setInterval(() => {
-      getBudaBTC_CLP(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC)
+      getBudaPrices(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC)
     }, 15000);
   }, [])
 
