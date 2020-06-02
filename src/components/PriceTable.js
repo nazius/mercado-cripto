@@ -6,13 +6,13 @@ import { formatPrice } from '../common'
 
 async function getBudaPrices(setBudaPrices) {
   const budaPrices = await axios.get('https://dreamy-engelbart-933366.netlify.app/.netlify/functions/get-buda-prices')
-  console.log('budaPrices', budaPrices)
-  setBudaPrices(budaPrices)
+  const { data = {} } = budaPrices
+  setBudaPrices(data)
 }
 
 function PriceTable() {
   const [budaPrices, setBudaPrices] = useState({
-    btcClpPrice: 0,
+    btcClpPrice: '',
     btcEthPrice: '',
     btcLtcPrice: '',
   })
