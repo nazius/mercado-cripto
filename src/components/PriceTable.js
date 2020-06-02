@@ -4,8 +4,9 @@ import Table from 'react-bootstrap/Table'
 import axios from 'axios'
 
 async function getBudaPrices(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC) {
-  const budaPrices = await axios.get('https://dreamy-engelbart-933366.netlify.app/.netlify/functions/get-buda-prices')
-  console.log('budaPrices',budaPrices)
+  const btcClpPrice = await axios.get('https://dreamy-engelbart-933366.netlify.app/.netlify/functions/get-buda-prices')
+  console.log('btcClpPrice',btcClpPrice)
+  setPriceBudaBTC(btcClpPrice)
 }
 
 
