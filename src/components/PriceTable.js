@@ -1,7 +1,13 @@
 /* eslint-disable no-dupe-args */
 import React, { useEffect, useState } from 'react';
-import { getBudaPrices, formatPrice } from '../common'
+import axios from 'axios'
 import Table from 'react-bootstrap/Table'
+import { formatPrice } from '../common'
+
+async function getBudaPrices(setBudaPrices) {
+  const budaPrices = await axios.get('https://dreamy-engelbart-933366.netlify.app/.netlify/functions/get-buda-prices')
+  setBudaPrices(budaPrices)
+}
 
 function PriceTable() {
   const [budaPrices, setBudaPrices] = useState({
