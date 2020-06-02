@@ -1,25 +1,21 @@
 /* eslint-disable no-dupe-args */
 import React, { useEffect, useState } from 'react';
+import { getBudaPrices, formatPrice } from '../common'
 import Table from 'react-bootstrap/Table'
-import axios from 'axios'
 
-async function getBudaPrices(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC) {
-  const btcClpPrice = await axios.get('https://dreamy-engelbart-933366.netlify.app/.netlify/functions/get-buda-prices')
-  console.log('btcClpPrice',btcClpPrice)
-  setPriceBudaBTC(btcClpPrice)
-}
-
-
-// COMPONENTE REACT
 function PriceTable() {
-  const [priceBudaBTC, setPriceBudaBTC] = useState(0)
-  const [priceBudaETH, setPriceBudaETH] = useState(0)
-  const [priceBudaLTC, setPriceBudaLTC] = useState(0)
+  const [budaPrices, setBudaPrices] = useState({
+    btcClpPrice: '',
+    btcEthPrice: '',
+    btcLtcPrice: '',
+  })
+
+  const { btcClpPrice , btcEthPrice, btcLtcPrice} = budaPrices
 
   useEffect(() => {
-    getBudaPrices(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC)
+    getBudaPrices(setBudaPrices)
     setInterval(() => {
-      getBudaPrices(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC)
+      getBudaPrices(setBudaPrices)
     }, 15000);
   }, [])
 
@@ -38,7 +34,7 @@ function PriceTable() {
       <tbody>
         <tr>
           <td>BTC</td>
-          <td>{priceBudaBTC}</td>
+          <td>{btcClpPrice && formatPrice(btcClpPrice)}</td>
           <td></td>
           <td></td>
           <td></td>
@@ -46,7 +42,7 @@ function PriceTable() {
         </tr>
         <tr>
           <td>ETH</td>
-          <td>{priceBudaETH}</td>
+          <td>{btcEthPrice && formatPrice(btcEthPrice)}</td>
           <td></td>
           <td></td>
           <td></td>
@@ -54,7 +50,7 @@ function PriceTable() {
         </tr>
         <tr>
           <td>LTC</td>
-          <td>{priceBudaLTC}</td>
+          <td>{btcLtcPrice && formatPrice(btcLtcPrice)}</td>
           <td></td>
           <td></td>
           <td></td>
