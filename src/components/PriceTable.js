@@ -2,21 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table'
 import axios from 'axios'
-import { get } from 'lodash'
 
 async function getBudaPrices(setPriceBudaBTC, setPriceBudaETH, setPriceBudaLTC) {
-  
-  const tickerBTC = await axios.get('https://www.buda.com/api/v2/markets/btc-clp/ticker.json')
-  const tickerETH = await axios.get('https://www.buda.com/api/v2/markets/eth-clp/ticker.json')
-  const tickerLTC = await axios.get('https://www.buda.com/api/v2/markets/ltc-clp/ticker.json')
-
-  const precioBTC = get(tickerBTC, 'data.ticker.last_price[0]', 0)
-  const precioETH = get(tickerETH, 'data.ticker.last_price[0]', 0)
-  const precioLTC = get(tickerLTC, 'data.ticker.last_price[0]', 0)
-  
-  setPriceBudaBTC(precioBTC)
-  setPriceBudaETH(precioETH)
-  setPriceBudaLTC(precioLTC)
+  const budaPrices = await axios.get('https://dreamy-engelbart-933366.netlify.app/.netlify/functions/get-buda-prices')
+  console.log('budaPrices',budaPrices)
 }
 
 
